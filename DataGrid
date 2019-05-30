@@ -1,0 +1,624 @@
+<DataGrid Grid.Column="1" ItemsSource="{Binding BRIList}" SelectionChanged="DataGrid_SelectionChanged" x:Name="RegisterListDataGrid"
+                  RowHeaderWidth="0" AutoGenerateColumns="False" CanUserAddRows="False"
+                  CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False"
+                  SelectionMode="Extended" FontSize="14" RowHeight="40" EnableRowVirtualization="True">
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="DataGridContextMenu">
+                    <!--<MenuItem Margin="5" Command="{Binding LinkedAction}"
+                                  FontSize="20">
+                        <MenuItem.Header>连接</MenuItem.Header>
+                    </MenuItem>-->
+                    <MenuItem Margin="5" Command="{Binding ModifyBloodAction}"
+                                  FontSize="20">
+                        <MenuItem.Header>修改</MenuItem.Header>
+                    </MenuItem>
+                    <Separator/>
+
+                    <MenuItem Margin="5" Command="{Binding DiagnoseAction}"
+                        FontSize="20" Header="诊断">
+                    </MenuItem>
+                    <Separator/>
+
+                    <MenuItem Margin="5" Command="{Binding PreviewAction}"
+                                      FontSize="20" Header="预览">
+                    </MenuItem>
+                    <Separator/>
+
+                    <MenuItem Margin="5" Command="{Binding PrintAction}"
+                                      FontSize="20" Header="打印">
+                    </MenuItem>
+                    <Separator/>
+
+                    <MenuItem Margin="5" Command="{Binding DeleteBloodAction}"
+                                      FontSize="20" Header="删除">
+                    </MenuItem>
+                    <Separator/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <EventSetter Event="MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"></EventSetter>
+                </Style>
+            </DataGrid.RowStyle>
+                
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="样本号" Binding="{Binding SampleCode}" Width="70" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding SampleCode}" Width="70" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header >
+                        <StackPanel x:Name="SampleCodePanel" Orientation="Horizontal" Height="20" >
+                            <TextBlock Text="样本号" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="2,0,1,0" BorderThickness="0" Click="SampleCode_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="条码号" Binding="{Binding BarCode}" Width="70" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding BarCode}" Width="70" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="BarCodePanel" Orientation="Horizontal" Height="20">
+                            <TextBlock Text="条码号" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="2,0,1,0" BorderThickness="0" Click="BarCode_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="姓名" Binding="{Binding UserName}" Width="70" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding UserName}" Width="70" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="UserNamePanel" Orientation="Horizontal" Height="20">
+                            <TextBlock Text="姓名" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="3,0,1,0" BorderThickness="0" Click="UserName_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="性别" Binding="{Binding Sex}" Width="40" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Sex}" Width="55" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="SexPanel" Orientation="Horizontal" Height="20">
+                            <TextBlock Text="性别" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Sex_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="年龄" Binding="{Binding Age}" Width="40" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Age}" Width="55" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="AgePanel" Orientation="Horizontal" Height="20">
+                            <TextBlock Text="年龄" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Age_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="电话" Binding="{Binding Phone}" Width="100" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Phone}" Width="100" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="PhonePanel" Orientation="Horizontal" Height="20">
+                            <TextBlock Text="电话" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Phone_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="门诊号" Binding="{Binding ClinicCode}" Width="70" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding ClinicCode}" Width="70" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="ClinicPanel" Orientation="Horizontal" Height="20">
+                            <TextBlock Text="门诊号" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Clinic_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="身份证" Binding="{Binding IdCard}" Width="160" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding IdCard}" Width="160" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="IdCardPanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="身份证" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="IdCard_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="医院名称" Binding="{Binding Hospital}" Width="100" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Hospital}" Width="100" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="HospitalPanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="医院名称" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Hospital_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg" />
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="挂号日期" Binding="{Binding Path=Date,StringFormat={}{0:yyyy-MM-dd}}" Width="90" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Path=Date,StringFormat={}{0:yyyy-MM-dd}}" Width="90" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="DatePanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="挂号日期" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Date_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn HeaderStyle="{StaticResource DataGridHeader}">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel x:Name="LinkPanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="连接" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Link_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!--<Label Content="{Binding Path=IsLinked,Converter={StaticResource IsLinkedConvertToImage}}"></Label>-->
+                            <Image Source="{Binding Path=IsLinked,Converter={StaticResource IsLinkedConvertToImage}}"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn HeaderStyle="{StaticResource DataGridHeader}">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel x:Name="DiagnosePanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="诊断" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Diagnose_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!--<Label Content="{Binding Path=IsLinked,Converter={StaticResource IsLinkedConvertToImage}}"></Label>-->
+                            <Image Source="{Binding Path=IsDiagnosed,Converter={StaticResource IsLinkedConvertToImage}}"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn HeaderStyle="{StaticResource DataGridHeader}">
+                    <DataGridTemplateColumn.Header>
+                        <StackPanel x:Name="ReportPanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="报告" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Report_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <!--<Label Content="{Binding Path=IsLinked,Converter={StaticResource IsLinkedConvertToImage}}"></Label>-->
+                            <Image Source="{Binding Path=IsReported,Converter={StaticResource IsLinkedConvertToImage}}"></Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="地址" Binding="{Binding Address}" Width="300" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Address}" Width="300" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="AddressPanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="地址" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Address_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="住院号" Binding="{Binding HospitalizationCode}" Width="70" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding HospitalizationCode}" Width="70" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="HospitalizationCodePanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="住院号" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Height="20" BorderThickness="0" Margin="1,0,1,0" Click="HospitalizationCode_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="床位号" Binding="{Binding BedCode}" Width="70" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding BedCode}" Width="70" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="BedCodePanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="床位号" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="BedCode_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="送检科室" Binding="{Binding Department}" Width="80" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Department}" Width="90" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="DepartmentPanel" Orientation="Horizontal" Height="20">
+                            <TextBlock Text="送检科室" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Department_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <!--<DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="送检医生" Binding="{Binding Doctor}" Width="80" IsReadOnly="True"/>-->
+                <DataGridTextColumn Binding="{Binding Doctor}" Width="90" IsReadOnly="True" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel x:Name="DoctorPanel" Height="20" Orientation="Horizontal">
+                            <TextBlock Text="送检医生" Style="{StaticResource DataGridHeaderTextBlock}"></TextBlock>
+                            <Button Margin="1,0,1,0" BorderThickness="0" Click="Doctor_Click">
+                                <Image>
+                                    <Image.Source>
+                                        <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/BlueFilter.svg"/>
+                                    </Image.Source>
+                                </Image>
+                            </Button>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn HeaderStyle="{StaticResource DataGridHeader}" ElementStyle="{StaticResource DataGridTextColumnCenterSytle}" Header="单核百分比" Binding="{Binding MO}" Width="80" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        
+
+        <Popup x:Name="SampleCodePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=SampleCodePanel}" Placement="Bottom" Opened="SampleCodePopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="250" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="样本号:" ></TextBlock>
+                    <TextBox x:Name="SampleCodePopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="SampleCodePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="BarCodePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=BarCodePanel}" Placement="Bottom" Opened="BarCodePopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="250" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="条码号:" ></TextBlock>
+                    <TextBox x:Name="BarCodePopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="BarCodePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="UserNamePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=UserNamePanel}" Placement="Bottom" Opened="UserNamePopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="250" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="姓名:" ></TextBlock>
+                    <TextBox x:Name="UserNamePopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="UserNamePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="SexPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=SexPanel}" Placement="Bottom">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="150" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="SexComBox" FontSize="19">
+                        <ComboBoxItem>男</ComboBoxItem>
+                        <ComboBoxItem>女</ComboBoxItem>
+                        <ComboBoxItem>未知</ComboBoxItem>
+                    </ComboBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="SexPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+        
+        <Popup x:Name="AgePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=AgePanel}" Placement="Bottom" Opened="AgePopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="250" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="年龄:" ></TextBlock>
+                    <TextBox x:Name="AgePopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="AgePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="PhonePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=PhonePanel}" Placement="Bottom" Opened="PhonePopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="300" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="电话:" ></TextBlock>
+                    <TextBox x:Name="PhonePopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="PhonePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="ClinicPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=ClinicPanel}" Placement="Bottom" Opened="ClinicPopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="250" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="门诊号:" ></TextBlock>
+                    <TextBox x:Name="ClinicPopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="ClinicPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="IdCardPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=IdCardPanel}" Placement="Bottom" Opened="IdCardPopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="350" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="身份证:" ></TextBlock>
+                    <TextBox x:Name="IdCardPopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="IdCardPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+        
+        <Popup x:Name="HospitalPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=HospitalPanel}" Placement="Bottom" Opened="HospitalPopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="300" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="医院名称:" ></TextBlock>
+                    <TextBox x:Name="HospitalPopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="HospitalPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="DatePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=DatePanel}" Placement="Bottom">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="355" Height="60">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel  Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                        <TextBlock Text="起始时间:" Style="{StaticResource PopupTextBlockStyle}" Margin="1,0,1,0"></TextBlock>
+                        <DatePicker FontSize="19" x:Name="StartTime" SelectedDate="{x:Static sys:DateTime.Now}" SelectedDateFormat="Long" FirstDayOfWeek="Monday" BorderBrush="#FF0072C6"></DatePicker>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+                        <TextBlock Text="截至时间:" Style="{StaticResource PopupTextBlockStyle}" Margin="1,0,1,0"></TextBlock>
+                        <DatePicker FontSize="19"  x:Name="EndTime" SelectedDate="{x:Static sys:DateTime.Now}" SelectedDateFormat="Long" FirstDayOfWeek="Monday" BorderBrush="#FF0072C6"></DatePicker>
+                    </StackPanel>
+                    <Button Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource PopupButtonStyle}" Content="查询" Click="DatePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="LinkPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=LinkPanel}" Placement="Bottom">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="150" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="LinkComBox" FontSize="19">
+                        <ComboBoxItem>已连接</ComboBoxItem>
+                        <ComboBoxItem>未连接</ComboBoxItem>
+                    </ComboBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="LinkPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="DiagnosePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=DiagnosePanel}" Placement="Bottom">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="150" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="DiagnoseComBox" FontSize="19">
+                        <ComboBoxItem>已诊断</ComboBoxItem>
+                        <ComboBoxItem>未诊断</ComboBoxItem>
+                    </ComboBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="DiagnosePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="ReportPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=ReportPanel}" Placement="Bottom">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="150" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="ReportComBox" FontSize="19">
+                        <ComboBoxItem>已导出</ComboBoxItem>
+                        <ComboBoxItem>未导出</ComboBoxItem>
+                    </ComboBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="ReportPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="AddressPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=AddressPanel}" Placement="Bottom" Opened="AddressPopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="300" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="地址:" ></TextBlock>
+                    <TextBox x:Name="AddressPopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="AddressPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="HospitalizationCodePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=HospitalizationCodePanel}" Placement="Bottom" Opened="HospitalizationCodePopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="250" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="住院号:" ></TextBlock>
+                    <TextBox x:Name="HospitalizationCodePopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="HospitalizationCodePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="BedCodePopup" StaysOpen="False" PlacementTarget="{Binding ElementName=BedCodePanel}" Placement="Bottom" Opened="BedCodePopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="250" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="床位号:" ></TextBlock>
+                    <TextBox x:Name="BedCodePopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="BedCodePop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="DepartmentPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=DepartmentPanel}" Placement="Bottom" Opened="DepartmentPopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="300" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="送检医院:" ></TextBlock>
+                    <TextBox x:Name="DepartmentPopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="DepartmentPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup x:Name="DoctorPopup" StaysOpen="False" PlacementTarget="{Binding ElementName=DoctorPanel}" Placement="Bottom" Opened="DoctorPopup_Opened">
+            <Border Background="White" BorderBrush="#FF0072C6" BorderThickness="2" Width="300" Height="30">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource PopupTextBlockStyle}" Text="送检医生:" ></TextBlock>
+                    <TextBox x:Name="DoctorPopTextBox" Style="{StaticResource PopupTextBoxStyle}" Grid.Column="1"></TextBox>
+                    <Button Style="{StaticResource PopupButtonStyle}" Content="查询" Grid.Column="2" Click="DoctorPop_Click"></Button>
+                </Grid>
+            </Border>
+        </Popup>
