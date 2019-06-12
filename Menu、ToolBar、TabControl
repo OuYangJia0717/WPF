@@ -1,0 +1,214 @@
+<Window x:Class="ConsoleApp_Menu.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ConsoleApp_Menu"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <DockPanel LastChildFill="False">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="File">
+                    <MenuItem Header="Exit" Click="MenuItem_Click"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Cut"></MenuItem>
+                    <MenuItem Header="Copy"></MenuItem>
+                    <MenuItem Header="Paste"></MenuItem>
+                </MenuItem>
+            </Menu>
+            <ToolBarTray DockPanel.Dock="Top">
+                <ToolBar>
+                    <Button>A</Button>
+                    <Button>B</Button>
+                    <Button>C</Button>
+                    <Button>D</Button>
+                </ToolBar>
+                <ToolBar Header="Search">
+                    <TextBox Width="100" x:Name="Find"></TextBox>
+                    <Button Width="23" Click="Button_Click">Go</Button>
+                </ToolBar>
+            </ToolBarTray>
+            <TabControl DockPanel.Dock="Top">
+                <TabItem Header="Page 1">
+                    <StackPanel>
+                        <Expander Header="Section 1">
+                            <GroupBox Header="Subsection A">
+                                <Label>Some Content!</Label>
+                            </GroupBox>
+                        </Expander>
+                        <Expander Header="Section 2">
+                            <GroupBox Header="Subsection B">
+                                <!--<Label>Some Content!</Label>-->
+                                <RichTextBox Name="_rtb">
+
+                                    <FlowDocument FontSize="24">
+                                        <Paragraph>
+                                            This is test
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </GroupBox>
+                        </Expander>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Page 2">
+                    <!--<Grid>
+                        <InkCanvas Name="_ink" StrokeCollected="_ink_StrokeCollected" Background="Beige">
+
+                        </InkCanvas>
+                        <Canvas x:Name="_overlay"></Canvas>
+                    </Grid>-->
+                    <!--<StackPanel>
+                        <InkCanvas Height="200" Name="_ink" Gesture="_ink_Gesture" EditingMode="InkAndGesture"></InkCanvas>
+                        <ListBox Name="_seen"></ListBox>
+                    </StackPanel>-->
+
+                    <Grid x:Name="LayoutRoot">
+
+                        <FlowDocumentPageViewer Name="flowDocPageViewer" MinZoom="50" MaxZoom="1000" Zoom="120" ZoomIncrement="5" Margin="0,34,8,8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+
+                        <Button HorizontalAlignment="Left" Click="onClick" Margin="8,8,0,0" VerticalAlignment="Top" Width="100" Height="22" Content="LoadContent"/>
+
+                        <Button HorizontalAlignment="Left" Click="onClick1" Margin="131,8,0,0" VerticalAlignment="Top" Width="92" Height="22" Content="SaveContent"/>
+
+                    </Grid>
+
+                </TabItem>
+            </TabControl>
+            <Grid DockPanel.Dock="Bottom">
+                <ProgressBar Height="20" Value="30"></ProgressBar>
+                <TextBlock Height="20" HorizontalAlignment="Center">30%</TextBlock>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
+
+
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Ink;
+using System.Windows.Input;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace ConsoleApp_Menu
+{
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+            //_ink.DefaultStylusPointDescription = new StylusPointDescription(new StylusPointPropertyInfo[] 
+            //{ new StylusPointPropertyInfo(StylusPointProperties.X),
+            //    new StylusPointPropertyInfo(StylusPointProperties.Y),
+            //    new StylusPointPropertyInfo(StylusPointProperties.NormalPressure),
+            //    new StylusPointPropertyInfo(StylusPointProperties.BarrelButton),
+            //});
+            //_ink.SetEnabledGestures(new ApplicationGesture[]{
+            //    ApplicationGesture.AllGestures
+            //});
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            FlowDocument fd = _rtb.Document;
+            TextPointer cur = fd.ContentStart;//获取内容的开始
+            while (cur!=null)
+            {
+                TextPointer end = cur.GetPositionAtOffset(Find.Text.Length);//结束为开始加上字符的长度
+                if (end!=null)
+                {
+                    TextRange test = new TextRange(cur,end);
+                    if (test.Text==Find.Text)
+                    {//判断需要找的字符串与截取后的字符串是否一致，则选中，选中的前提是此标签需要获取焦点
+                        _rtb.Selection.Select(test.Start,test.End);
+                        break;
+                    }
+                }
+                cur = cur.GetNextInsertionPosition(LogicalDirection.Forward);
+            }
+            //string text = new TextRange(fd.ContentStart,fd.ContentEnd).Text;
+            //int index = text.IndexOf(Find.Text);
+            //TextPointer start = fd.ContentStart.GetPositionAtOffset(index+2);
+            //TextPointer end = start.GetPositionAtOffset(Find.Text.Length);
+            //_rtb.Selection.Select(start,end);
+        }
+
+        private void _ink_StrokeCollected(object sender, InkCanvasStrokeCollectedEventArgs e)
+        {
+            //_overlay.Children.Clear();
+            //Brush fill = new SolidColorBrush(Color.FromArgb(120,255,0,0));
+            //foreach (StylusPoint pt in e.Stroke.StylusPoints)
+            //{
+            //    double markerSize = pt.PressureFactor * 35.0;
+            //    Ellipse marker = new Ellipse();
+            //    Canvas.SetLeft(marker,pt.X-markerSize/2);
+            //    Canvas.SetTop(marker,pt.Y-markerSize/2);
+            //    marker.Width = marker.Height = markerSize;
+            //    marker.Fill = fill;
+            //    //if (pt.GetPropertyValue(StylusPointProperties.BarrelButton)!=0)
+            //    //{
+            //    //    marker.Fill = null;
+            //    //    marker.Stroke = Brushes.Black;
+            //    //    marker.StrokeThickness = 2.0;
+            //    //}
+            //    _overlay.Children.Add(marker);
+            //}
+        }
+
+        private void _ink_Gesture(object sender, InkCanvasGestureEventArgs e)
+        {
+            //_seen.Items.Add(e.GetGestureRecognitionResults()[0].ApplicationGesture);
+        }
+        private void onClick(object sender, RoutedEventArgs e)
+        {
+            LoadFlowDocumentPageViewerWithXAMLFile(@"d:\flowDoc.xaml");
+        }
+
+        private void onClick1(object sender, RoutedEventArgs e)
+        {
+            FileStream xamlFile = new FileStream(@"d:\flowDoc1.xaml", FileMode.Create, FileAccess.ReadWrite);
+
+            XamlWriter.Save(flowDocPageViewer.Document, xamlFile);
+
+            xamlFile.Close();
+        }
+
+        void LoadFlowDocumentPageViewerWithXAMLFile(string fileName)
+        {
+
+            FileStream xamlFile = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+
+            FlowDocument content = XamlReader.Load(xamlFile) as FlowDocument;
+
+            flowDocPageViewer.Document = content;
+
+            xamlFile.Close();
+
+        }
+
+
+    }
+}
