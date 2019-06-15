@@ -1,0 +1,137 @@
+IsEditable 是可不可以编辑的，为True选择的列表对象是内存地址的话就要用TextSearch.TextPath="ItemName"，此ItemName需要binding的对象
+
+操作XML文档网址：   https://www.cnblogs.com/lip-blog/p/7652544.
+
+<ComboBox IsEditable="True" TextSearch.TextPath="ItemName" Grid.Row="4" Grid.Column="5" FontSize="20" Width="175" Height="30" ItemsSource="{Binding DepartmentList}" Text="{Binding Path=BRI.Department,Mode=TwoWay,UpdateSourceTrigger=LostFocus}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Width="165">
+                        <TextBlock Foreground="Black" FontSize="20" Width="100" Text="{Binding ItemName}" TextWrapping="Wrap"></TextBlock>
+                        <Button Width="15"  Click="DepartmentList_Click" BorderThickness="0" Background="White">
+                            <Button.ContentTemplate>
+                                <DataTemplate>
+                                    <Image>
+                                        <Image.Source>
+                                            <svgc:SvgImage Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Vector/RedCross.svg" />
+                                        </Image.Source>
+                                    </Image>
+                                </DataTemplate>
+                            </Button.ContentTemplate>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        //对应的button事件
+        private void DepartmentList_Click(object sender, RoutedEventArgs e)
+        {
+            ComboBoxItemName item = (sender as Button).DataContext as ComboBoxItemName;
+            if (MessageBox.Show(
+               $"选项“{item.ItemName}”将被删除，是否确定删除该选项？",
+               "删除选项",
+               MessageBoxButton.YesNo,
+               MessageBoxImage.Question) == MessageBoxResult.Yes)
+                ViewModel.DepartmentList.Remove(item);
+
+        }
+        
+        
+        //读Xml文件
+        
+        <Information>
+            <Hospital>
+              <Name>研发部</Name>
+              <Name>综合部</Name>
+              <Name>检验所</Name>
+            </Hospital>
+            <Doctor>
+              <Name>欧耶</Name>
+              <Name>香香</Name>
+              <Name>佳爷</Name>
+            </Doctor>	
+            <Department>
+              <Name>研发</Name>
+              <Name>技术服务</Name>
+              <Name>生产</Name>
+            </Department>
+        </Information>
+        
+        //加载xml中的数据
+        private void LoadXmlDate()
+        {
+            XmlDocument xml = new XmlDocument();
+            xml.Load("Information.txt");
+            foreach (XmlNode nodes in xml.FirstChild.ChildNodes)
+            {
+                if (nodes.Name.Equals("Hospital"))
+                {
+                    foreach (XmlNode node in nodes)
+                    {
+                        HospitalList.Add(new ComboBoxItemName(node.InnerText));
+                    }
+                }
+                else if (nodes.Name.Equals("Doctor"))
+                {
+                    foreach (XmlNode node in nodes)
+                    {
+                        DoctorList.Add(new ComboBoxItemName(node.InnerText));
+                    }
+                }
+                else
+                {
+                    foreach (XmlNode node in nodes)
+                    {
+                        DepartmentList.Add(new ComboBoxItemName(node.InnerText));
+                    }
+                }
+            }
+        }
+        
+         //添加xml数据
+        public void AddXmlDate()
+        {
+            XmlDocument xml = new XmlDocument();
+            xml.Load("Information.txt");
+
+            XmlNodeList Nodes = xml.FirstChild.ChildNodes;
+
+            //移除医院、医生、部门
+            foreach (XmlNode nodes in Nodes)
+            {
+                nodes.RemoveAll();
+            }
+
+            //添加医院信息
+            foreach (XmlNode nodes in Nodes)
+            {
+                if (nodes.Name.Equals("Hospital"))
+                {
+                    foreach (ComboBoxItemName n in HospitalList)
+                    {
+                        XmlNode node = xml.CreateNode("element", "Name", "");
+                        node.InnerText = n.ItemName;
+                        nodes.AppendChild(node);
+                    }
+                }
+                else if (nodes.Name.Equals("Doctor"))
+                {
+                    foreach (ComboBoxItemName n in DoctorList)
+                    {
+                        XmlNode node = xml.CreateNode("element", "Name", "");
+                        node.InnerText = n.ItemName;
+                        nodes.AppendChild(node);
+                    }
+                }
+                else
+                {
+                    foreach (ComboBoxItemName n in DepartmentList)
+                    {
+                        XmlNode node = xml.CreateNode("element", "Name", "");
+                        node.InnerText = n.ItemName;
+                        nodes.AppendChild(node);
+                    }
+                }
+            }
+            xml.Save("Information.txt");
+        }
+        
