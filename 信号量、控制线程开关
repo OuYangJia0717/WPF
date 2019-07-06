@@ -1,0 +1,118 @@
+class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            //double n = 0;
+
+            //string s = "sssa2131231SS24444";
+            //Match m = Regex.Match(s, @"^([a-z]|[A-Z])*");
+            ////m.
+            ////double.TryParse(m.Groups[0].ToString(), out n);
+            //Console.WriteLine(m.Value);
+            //Console.ReadKey();
+            ////double d = 0;
+            ////string str = "hello8023.1314world"; //要截取的字符串
+            ////Match m = Regex.Match(str, @"\d+(\.\d+{0,1}");
+            ////double.TryParse(m.Groups[0].ToString(), out d);
+            ////Console.WriteLine(d);
+            ////Console.ReadKey();
+
+            ////------------------------------SemaphoreSlim 多线程等待案例------------------------------
+
+            for (int i = 0; i < 10; i++)
+            {
+                Task.Factory.StartNew(() => DoWork());
+            }
+
+            Console.ReadKey();
+
+            //------------------------------------ManualResetEvent-------------------------------------------
+            //MyThread myt = new MyThread();
+            //while (true)
+            //{
+            //    Console.OutputEncoding = System.Text.Encoding.UTF8;
+            //    Console.WriteLine("输入 stop 后台线程挂起 start 开始执行！");
+            //    string str = Console.ReadLine();
+            //    if (str.ToLower().Trim() == "pause")
+            //    {
+            //        Console.WriteLine("线程停止运行...\n");
+            //        myt.Pause();
+            //    }
+            //    if (str.ToLower().Trim() == "start")
+            //    {
+            //        Console.WriteLine("线程开启运行...\n");
+            //        myt.Start();
+            //    }
+            //    if (str.ToLower().Trim() == "stop")
+            //    {
+            //        Console.WriteLine("线程开启停止...\n");
+            //        myt.Stop();
+            //    }
+            //}
+        }
+
+
+
+
+        static SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        static void DoWork()
+        {
+
+            _semaphore.Wait();
+            Console.WriteLine(string.Format("Thread {0} wait……", Thread.CurrentThread.ManagedThreadId));
+            Console.WriteLine(string.Format("Thread {0} get……", Thread.CurrentThread.ManagedThreadId));
+            Thread.Sleep(5000);
+            Console.WriteLine(string.Format("Thread {0} release……", Thread.CurrentThread.ManagedThreadId));
+            _semaphore.Release();
+        }
+    }
+    //class MyThread
+    //{
+    //    Thread t = null;
+    //    //为true，一开始就可以执行
+    //    ManualResetEventSlim manualEvent = new ManualResetEventSlim(true);
+    //    CancellationTokenSource cancel = new CancellationTokenSource();
+    //    private void Run()
+    //    {
+    //        while (true)
+    //        {
+    //            if (!manualEvent.IsSet)
+    //            {
+    //                Console.WriteLine("暂停执行");
+    //            }
+
+    //            try
+    //            {
+    //                manualEvent.Wait(cancel.Token);
+    //            }
+    //            catch
+    //            {
+    //                break;
+    //            }
+
+    //            Console.WriteLine($"线程id{0}", Thread.CurrentThread.ManagedThreadId);
+    //            Thread.Sleep(2000);
+    //        }
+    //    }
+
+    //    public void Start()
+    //    {
+    //        manualEvent.Set();
+    //    }
+
+    //    public void Pause()
+    //    {
+    //        manualEvent.Reset();
+    //    }
+    //    public void Stop()
+    //    {
+    //        cancel.Cancel();
+    //    }
+
+    //    public MyThread()
+    //    {
+    //        t = new Thread(Run);
+    //        t.Start();
+    //    }
+    //}
