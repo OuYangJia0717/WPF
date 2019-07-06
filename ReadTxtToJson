@@ -1,0 +1,127 @@
+class Program
+    {
+        static void Main(string[] args)
+        {
+            var c = args.FirstOrDefault();
+            foreach (var p in Directory.GetDirectories(c))
+            {
+                Console.WriteLine(p);
+                Function(p);
+            }
+            Console.ReadKey();
+        }
+
+        static void Function(string path)
+        {
+            string code = path.Substring(path.LastIndexOf("\\") + 1);
+
+            string txtPath = Path.Combine(path, "BloodCells.txt");
+            string cellPath = Path.Combine(path, "HighCells");
+            string jsonPath = Path.Combine(path, "Blood.json");
+            if (File.Exists(jsonPath)) File.Delete(jsonPath);
+            StreamReader sr = new StreamReader(txtPath, System.Text.Encoding.UTF8);
+            string temp = "";
+
+            int i = 0;
+            Dictionary<string, BloodCell> dic = new Dictionary<string, BloodCell>();
+            DirectoryInfo d = new DirectoryInfo(cellPath);
+            while (!string.IsNullOrEmpty(temp = sr.ReadLine()))
+            {
+                var infos = temp.Split(',');
+                foreach (var f in d.GetFiles())
+                {
+                    var list = new List<CellHistoryType>();
+                    list.Add(new CellHistoryType("", ""));
+                    if (infos[0] == f.Name)
+                    {
+                        if (infos[1] == "Lymphocyte")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "Lymphocyte"));
+                        }
+                        else if (infos[1] == "Monocyte")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "Monocyte"));
+                        }
+                        else if (infos[1] == "Basophil")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "Basophil"));
+                        }
+                        else if (infos[1] == "Eosinophil")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "Eosinophil"));
+                        }
+                        else if (infos[1] == "SegmentedNeutrophil")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "SegmentedNeutrophil"));
+                        }
+                        else if (infos[1] == "BandedNeutrophil")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "BandedNeutrophil"));
+                        }
+                        else if (infos[1] == "Other")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "OtherCell"));
+                        }
+                        else if (infos[1] == "Neutrophil")
+                        {
+                            dic.Add(f.Name, new BloodCell("", list, "Neutrophil"));
+                        }
+                        i++;
+                        break;
+                    }
+                }
+            }
+
+            BloodSample b = new BloodSample(code, dic);
+            File.WriteAllText(jsonPath, JsonConvert.SerializeObject(b));
+            Console.WriteLine(code + "-------------" + i);
+
+        }
+    }
+
+    class BloodCell
+    {
+        public BloodCell(string finaltype, List<CellHistoryType> his, string autotype)
+        {
+            FinalType = finaltype;
+            HistoryType = his;
+            AutoType = autotype;
+        }
+        [JsonProperty("FinalType")]
+        public string FinalType { set; get; }
+
+        [JsonProperty("HistoryType")]
+        public List<CellHistoryType> HistoryType { set; get; }
+
+        [JsonProperty("AutoType")]
+        public string AutoType { set; get; }
+    }
+
+    class BloodSample
+    {
+        public BloodSample(string code, Dictionary<string, BloodCell> dic)
+        {
+            SampleCode = code;
+            NameAndType = dic;
+        }
+        [JsonProperty("SampleCode")]
+        public string SampleCode { set; get; }
+
+        [JsonProperty("NameAndType")]
+        public Dictionary<string, BloodCell> NameAndType { set; get; }
+    }
+
+    class CellHistoryType
+    {
+        public CellHistoryType(string name, string type)
+        {
+            DoctorName = name;
+            CellType = type;
+        }
+
+        [JsonProperty("DoctorName")]
+        public string DoctorName { set; get; }
+
+        [JsonProperty("CellType")]
+        public string CellType { set; get; }
+    }
