@@ -1,0 +1,110 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace WriteableBit
+{
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DoubleAnimation widthAnimation = new DoubleAnimation();
+            widthAnimation.To = this.Width - 50;
+            widthAnimation.From = 50;
+            widthAnimation.Duration = TimeSpan.FromSeconds(2);
+            //widthAnimation.AutoReverse = true;//返回最初属性
+            //widthAnimation.FillBehavior = FillBehavior.HoldEnd;
+            widthAnimation.Completed += WidthAnimation_Completed;//动画完成事件
+            Button1.BeginAnimation(Button.WidthProperty,widthAnimation);
+
+            DoubleAnimation heightAnimation = new DoubleAnimation();
+            heightAnimation.To = this.Height - 50;
+            heightAnimation.From = 50;
+            heightAnimation.Duration = TimeSpan.FromSeconds(2);
+            heightAnimation.AutoReverse = true;//返回最初属性
+            Button1.BeginAnimation(Button.HeightProperty, heightAnimation);
+
+            DoubleAnimation buttonfont = new DoubleAnimation();
+            buttonfont.To = 30;
+            buttonfont.From = 10;
+            buttonfont.Duration = TimeSpan.FromSeconds(2);
+            buttonfont.AutoReverse = true;//返回最初属性
+            Button1.BeginAnimation(Button.FontSizeProperty, buttonfont);
+            //Random r = new Random();
+            //Int32Rect rect = new Int32Rect(0, 0, (int)img.Width, (int)img.Height);
+            //WriteableBitmap wb = new WriteableBitmap((int)img.Width, (int)img.Height, 96, 96, PixelFormats.Bgra32, null);
+            //byte[] colorData = new byte[(int)img.Width * (int)img.Height * 4];
+            //int count = 0;
+            //for (int i = 0; i < (int)img.Width; i++)
+            //{
+            //    for (int j = 0; j < (int)img.Height; j++)
+            //    {
+            //        byte blue = (byte)r.Next(0, 256);
+            //        byte green = (byte)r.Next(0, 256);
+            //        byte red = (byte)r.Next(0, 256);
+            //        byte alpha = 255;
+            //        colorData[count] = blue;
+            //        colorData[count + 1] = green;
+            //        colorData[count + 2] = red;
+            //        colorData[count + 3] = alpha;
+            //        count += 4;
+
+
+            //    }
+            //    int stride = (wb.PixelWidth * wb.Format.BitsPerPixel) / 8;
+            //    wb.WritePixels(rect, colorData, stride, 0);
+            //}
+
+            //img.Source = wb;
+            //WriteableBitmap wb = new WriteableBitmap((int)img.Width,(int)img.Height,96,96,PixelFormats.Bgra32,null);
+            //Int32Rect rect = new Int32Rect(0, 0, (int)img.Width, (int)img.Height);
+            //byte[] pixels = new byte[(int)img.Width * (int)img.Height * wb.Format.BitsPerPixel / 8];
+            //Random rand = new Random();
+            //for (int y = 0; y < wb.PixelHeight; y++)
+            //{
+            //    for (int x=0;x<wb.PixelWidth;x++)
+            //    {
+            //        int alpha = 255 ;
+            //        int red = rand.Next(0, 256);
+            //        int green= rand.Next(0, 256);
+            //        int blue = rand.Next(0, 256);
+
+            //        int pixelOffect=(x+y*wb.PixelWidth)*wb.Format.BitsPerPixel/8;
+            //        pixels[pixelOffect] = (byte)blue;
+            //        pixels[pixelOffect+1] = (byte)green;
+            //        pixels[pixelOffect+2] = (byte)red;
+            //        pixels[pixelOffect+3] = (byte)alpha;
+            //    }
+            //    int stride = (wb.PixelWidth * wb.Format.BitsPerPixel) / 8;
+            //    wb.WritePixels(rect, pixels, stride, 0);
+            //}
+            //img.Source = wb;
+        }
+
+        private void WidthAnimation_Completed(object sender, EventArgs e)
+        {
+            Button1.BeginAnimation(Button.WidthProperty, null);
+            Button1.Width = 50;
+        }
+    }
+}
