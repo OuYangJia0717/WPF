@@ -1,0 +1,61 @@
+<Window x:Class="WriteableBit.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WriteableBit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Triggers>
+        <EventTrigger SourceName="Start" RoutedEvent="Button.Click">
+            <BeginStoryboard Name="FadeStoryboardBegin">
+                <Storyboard CurrentTimeInvalidated="Storyboard_CurrentTimeInvalidated">
+                    <DoubleAnimation Storyboard.TargetName="GrayImg" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:2"></DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+        <EventTrigger SourceName="Pause" RoutedEvent="Button.Click">
+            <PauseStoryboard BeginStoryboardName="FadeStoryboardBegin"></PauseStoryboard>
+        </EventTrigger>
+        <EventTrigger SourceName="Resume" RoutedEvent="Button.Click">
+            <ResumeStoryboard BeginStoryboardName="FadeStoryboardBegin"></ResumeStoryboard>
+        </EventTrigger>
+        <EventTrigger SourceName="Stop" RoutedEvent="Button.Click">
+            <StopStoryboard BeginStoryboardName="FadeStoryboardBegin"></StopStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Image Source="欧耶.jpg" Stretch="Uniform"></Image>
+            <Image Name="GrayImg" Source="欧耶Gray.jpg" Stretch="Uniform"></Image>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <Button Name="Start" Margin="20,0" Width="70" Height="50">开始</Button>
+            <Button Name="Pause" Margin="20,0" Width="70" Height="50">暂停</Button>
+            <Button Name="Resume" Margin="20,0" Width="70" Height="50">恢复</Button>
+            <Button Name="Stop" Margin="20,0" Width="70" Height="50">停止</Button>
+        </StackPanel>
+
+        <ProgressBar Name="ProgressBar1" Grid.Row="2" Minimum="0" Maximum="1"></ProgressBar>
+        <!--<StackPanel >-->
+            <!--<Image Name="img" Width="400" Height="300"></Image>--><!--
+            <Button HorizontalAlignment="Center" VerticalAlignment="Center" Width="50" Name="Button1" Margin="3" Click="Button_Click">绘制</Button>
+        --><!--</StackPanel>-->
+    </Grid>
+</Window>
+
+
+private void Storyboard_CurrentTimeInvalidated(object sender, EventArgs e)
+        {
+            Clock c = (Clock)sender;停止的时候为空，赋值报错，为空则归零
+            if (c.CurrentProgress != null)//
+                ProgressBar1.Value = (double)c.CurrentProgress;
+            else
+                ProgressBar1.Value = 0;
+        }
