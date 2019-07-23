@@ -1,25 +1,53 @@
-//App.xaml 的交互逻辑中使用
+/// <summary>
+    /// App.xaml 的交互逻辑
+    /// </summary>
+    public partial class App : System.Windows.Application
+    {
+        //判断程序是否启动的两种方式，Stopwatch测试发现运行第一种速度更快
 
-protected override void OnStartup(StartupEventArgs e)
+        //一、创建系统事件
+        public EventWaitHandle ProgramStarted { get; set; }
+
+
+        protected override void OnStartup(StartupEventArgs e)
         {
-            if (AppInstance())
+            bool createNew;
+            ProgramStarted = new EventWaitHandle(false, EventResetMode.AutoReset, "Scanner", out createNew);
+
+
+            if (!createNew)
             {
-                MessageBox.Show("该程序已经打开，重新打开请先关闭！");
+                System.Windows.Forms.MessageBox.Show("警告:程序正在运行中! 请不要重复打开程序!", "系统提示", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                App.Current.Shutdown();
                 Environment.Exit(0);
             }
             base.OnStartup(e);
         }
 
-        public bool AppInstance()
-        {
-            Process[] MyProcesses = Process.GetProcesses();
-            int i = 0;
-            foreach (Process MyProcess in MyProcesses)
-            {
-                if (MyProcess.ProcessName == Process.GetCurrentProcess().ProcessName)
-                {
-                    i++;
-                }
-            }
-            return (i > 1) ? true : false;
-        }
+        ////二、判断进程中是否存在同名进程
+
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    if (AppInstance())
+        //    {
+        //        MessageBox.Show("该程序已经打开，重新打开请先关闭！");
+        //        Environment.Exit(0);
+        //    }
+        //    base.OnStartup(e);
+        //}
+
+        //public bool AppInstance()
+        //{
+        //    Process[] MyProcesses = Process.GetProcesses();
+        //    int i = 0;
+        //    foreach (Process MyProcess in MyProcesses)
+        //    {
+        //        if (MyProcess.ProcessName == Process.GetCurrentProcess().ProcessName)
+        //        {
+        //            i++;
+        //            if (i == 2) break;//发现两个则退出循环
+        //        }
+        //    }
+        //    return (i > 1) ? true : false;
+        //}
+    }
