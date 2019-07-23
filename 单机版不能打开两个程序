@@ -1,0 +1,25 @@
+//App.xaml 的交互逻辑中使用
+
+protected override void OnStartup(StartupEventArgs e)
+        {
+            if (AppInstance())
+            {
+                MessageBox.Show("该程序已经打开，重新打开请先关闭！");
+                Environment.Exit(0);
+            }
+            base.OnStartup(e);
+        }
+
+        public bool AppInstance()
+        {
+            Process[] MyProcesses = Process.GetProcesses();
+            int i = 0;
+            foreach (Process MyProcess in MyProcesses)
+            {
+                if (MyProcess.ProcessName == Process.GetCurrentProcess().ProcessName)
+                {
+                    i++;
+                }
+            }
+            return (i > 1) ? true : false;
+        }
