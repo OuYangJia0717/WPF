@@ -1,0 +1,238 @@
+<!-- 右边：细胞列表 -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="0.15*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <!--按钮多选-->
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Grid>
+                                            <Border Name="border" Background="White" >
+                                                <ContentPresenter Content=""></ContentPresenter>
+                                            </Border>
+                                            <TextBlock Name="text" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="#00BFFF" Text="{TemplateBinding Content}" ></TextBlock>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="False">
+                                                <Setter TargetName="border" Property="Background" Value="#00BFFF"></Setter>
+                                                <Setter TargetName="border" Property="CornerRadius" Value="10"></Setter>
+                                                <Setter TargetName="text" Property="Foreground" Value="black"></Setter>
+
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="Red"></Setter>
+                                                <Setter TargetName="border" Property="CornerRadius" Value="25"></Setter>
+                                                <Setter TargetName="text" Property="Foreground" Value="White"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Content="单核" Width="130" Height="45" Click="MoreChecked"></Button>
+                    <Button Grid.Column="1" Content="淋巴" Margin="10 0" Width="130" Click="MoreChecked"></Button>
+                    <Button Grid.Column="2" Content="嗜碱" Margin="10 0" Width="130" Click="MoreChecked"></Button>
+                    <Button Grid.Column="3" Content="嗜酸" Margin="10 0" Width="130" Click="MoreChecked"></Button>
+                    <Button Grid.Column="4" Content="中性杆状" Margin="10 0" Width="130" Click="MoreChecked"></Button>
+                    <Button Grid.Column="5" Content="中性分叶" Margin="10 0" Width="130" Click="MoreChecked"></Button>
+                    <Button Grid.Column="6" Content="其它" Margin="10 0" Width="130" Click="MoreChecked"></Button>
+                </Grid>
+
+
+
+                    <!--下拉框多选-->
+                <!--<Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+                <TextBlock  VerticalAlignment="Center" Foreground="#00BFFF" FontSize="25" FontWeight="Bold">当前选中细胞修改为 :</TextBlock>
+                <ComboBox Margin="5" Background="White" Foreground="#00BFFF" x:Name="CellTypes" Width="150" FontSize="25" FontWeight="Bold" ItemsSource="{Binding CellTypes}" ItemContainerStyle="{StaticResource ComboBoxItemStyle}"></ComboBox>
+                <Button Margin="5" Background="White" Width="150" FontWeight="Bold" FontSize="25" Click="MoreChecked" >
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border Name="border" Background="{TemplateBinding Background}">
+                                    <ContentPresenter></ContentPresenter>
+                                </Border>
+                                <TextBlock Name="text" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" Text="确认" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                    <Setter TargetName="border" Property="Background" Value="#00BFFF"></Setter>
+                                    <Setter TargetName="border" Property="CornerRadius" Value="5"></Setter>
+                                    <Setter TargetName="text" Property="Foreground" Value="black"></Setter>
+                                    
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="Red"></Setter>
+                                    <Setter TargetName="border" Property="CornerRadius" Value="15"></Setter>
+                                    <Setter TargetName="text" Property="Foreground" Value="White"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>-->
+            </StackPanel>
+
+            <ListView ItemsSource="{Binding CurrentCellList}" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                  Grid.Column="0" Grid.RowSpan="5" Grid.Row="1" SelectedItem="{Binding SelectedCell}"
+                  Background="Transparent" ContextMenu="{StaticResource ContextMenu}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  MouseLeftButtonDown="oneClick" BorderBrush="Transparent"               
+                  Name="mylist"
+                 >
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel ItemHeight="220" ItemWidth="220"
+                               Background="Transparent"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Aqua" BorderThickness="2" Width="200" Height="200"
+                            Background="#01FFFFFF">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
+                                       Foreground="GreenYellow" FontWeight="Bold" FontSize="18" Panel.ZIndex="200"
+                                       x:Name="CellTypeTextBlock" 
+                                       Text="{Binding ClassInformation.CellType,Converter={StaticResource CellNameConverter}}"/>
+                                <Image Source="{Binding ColorImageEx, Converter={StaticResource EmguConverter}}"
+                                   Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                   Panel.ZIndex="100"/>
+                            </Grid>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Monocyte">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Blue"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Lymphocyte">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DarkMagenta"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="OtherCell">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Yellow"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="BandedNeutrophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Orange"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="SegmentedNeutrophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DeepPink"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Basophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DeepSkyBlue"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Eosinophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Turquoise"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <Grid Grid.RowSpan="6"  Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Button  Background="Transparent" BorderBrush="Transparent" Margin="0,10" Click="PageFirst">
+                        <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
+                            <Image.Source>
+                                <svgc:SvgImage
+                        Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Snipicon/SnipiconPageFirst.svg" />
+                            </Image.Source>
+                        </Image>
+                    </Button>
+                    <Button Grid.Row="1" Background="Transparent" BorderBrush="Transparent" Margin="0,10" Click="PageUp">
+                        <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
+                            <Image.Source>
+                                <svgc:SvgImage
+                    Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Snipicon/SnipiconPageUp.svg" />
+                            </Image.Source>
+                        </Image>
+                    </Button>
+                    <StackPanel Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal" Margin="0,10">
+                        <TextBlock VerticalAlignment="Center" FontFamily="Agency FB" FontWeight="Bold"
+                               FontSize="45" Foreground="White" 
+                               Margin="10,0,1,0" Text="{Binding CurrentPage}">
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center"
+                               Text=" / " 
+                               Foreground="#00BFFF" FontFamily="Agency FB" FontWeight="Bold"
+                               FontSize="45" Margin="1,0,1,0"/>
+                        <TextBlock VerticalAlignment="Center" FontFamily="Agency FB" FontWeight="Bold"
+                               FontSize="45" Foreground="#00BFFF"  
+                               Margin="10,0,1,0" Text="{Binding PageCount}">
+                        </TextBlock>
+
+                    </StackPanel>
+                    <Button Grid.Row="3" Background="Transparent" BorderBrush="Transparent" Click="PageDown" Margin="0,10">
+                        <Image HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
+                            <Image.Source>
+                                <svgc:SvgImage
+                    Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Snipicon/SnipiconPageDown.svg" />
+                            </Image.Source>
+                        </Image>
+                    </Button>
+                    <Button Grid.Row="4" Background="Transparent" BorderBrush="Transparent" Click="PageLast" Margin="0,10">
+                        <Image  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform">
+                            <Image.Source>
+                                <svgc:SvgImage
+                    Source="pack://application:,,,/LandingMed.ImageResource;component/Images/Snipicon/SnipiconPageLast.svg" />
+                            </Image.Source>
+                        </Image>
+                    </Button>
+                </Grid>
+
+                <StackPanel Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" FontFamily="Agency FB" FontWeight="Bold"
+                               FontSize="25" Foreground="#00BFFF" 
+                               Margin="10,0,1,0" Text="当前类别的细胞总数为">
+                </TextBlock>
+                <TextBlock VerticalAlignment="Center"
+                               Text=" : " 
+                               Foreground="#00BFFF" FontFamily="Agency FB" FontWeight="Bold"
+                               FontSize="25" Margin="1,0,1,0"/>
+                <TextBlock VerticalAlignment="Center" FontFamily="Agency FB" FontWeight="Bold"
+                               FontSize="25" Foreground="White"  
+                               Margin="10,0,1,0" Text="{Binding CellTypeCount}">
+                </TextBlock>
+            </StackPanel>
+        </Grid>
