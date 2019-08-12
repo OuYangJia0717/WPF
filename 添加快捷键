@@ -1,0 +1,75 @@
+ <UserControl.Resources>
+        <!--快捷键-->
+        <RoutedCommand x:Key="testF5"></RoutedCommand>
+</UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{StaticResource testF5}" Executed="CommandF5"></CommandBinding>
+    </UserControl.CommandBindings>
+    <UserControl.InputBindings>
+        <KeyBinding Gesture="F5" Command="{StaticResource testF5}"></KeyBinding>
+    </UserControl.InputBindings>
+    
+    private void CommandF5(object sender, ExecutedRoutedEventArgs e)
+    {
+            ViewModel.RefrushCellList();
+    }
+    
+    
+    
+    还有一种方式，就是 写控件或者窗体的KeyDown事件 PreviewKeyDown="Window_KeyDown"
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+
+                if (e.Key == Key.Enter)
+                {
+                    //搜索
+                    if (Keyboard.FocusedElement != null && Keyboard.FocusedElement == SearchTxt) Search_Click(SearchBtn, e);
+                    //文件或者文件夹重命名
+                    if (Keyboard.FocusedElement != null && Keyboard.FocusedElement.GetType().Name == "TextBox")
+                    {
+                        TextBox box = Keyboard.FocusedElement as TextBox;
+                        FilesModel model = box.DataContext as FilesModel;
+                        if (model != null) ReName_LostFocus(box, e);
+                    }
+
+                    Keyboard.ClearFocus();
+                }
+                //Ctrl+C 全选
+                if ((e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl)) && e.KeyboardDevice.IsKeyDown(Key.C))
+                {
+                    if (Keyboard.FocusedElement != null && Keyboard.FocusedElement.GetType().Name == "TextBox") return;
+                    CommandBinding_Copy(null, null);
+                }
+
+                //Ctrl+X 全选
+                if ((e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl)) && e.KeyboardDevice.IsKeyDown(Key.X))
+                {
+                    if (Keyboard.FocusedElement != null && Keyboard.FocusedElement.GetType().Name == "TextBox") return;
+                    CommandBinding_Cut(null, null);
+                }
+                //Ctrl+V 全选
+                if ((e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl)) && e.KeyboardDevice.IsKeyDown(Key.V))
+                {
+                    if (Keyboard.FocusedElement != null && Keyboard.FocusedElement.GetType().Name == "TextBox") return;
+                    CommandBinding_Paste(null, null);
+                }
+
+                //Ctrl+A 全选
+                if ((e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl)) && e.KeyboardDevice.IsKeyDown(Key.A))
+                {
+                    SelectAllCheck.IsChecked = true;
+                    SelectAll_Click(SelectAllCheck, e);
+                }
+                //Shift+D 删除
+                if ((e.KeyboardDevice.IsKeyDown(Key.LeftShift) || e.KeyboardDevice.IsKeyDown(Key.RightShift)) && e.KeyboardDevice.IsKeyDown(Key.Delete))
+                {
+                    DeleteBtn_Click(null, e);
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+        }
