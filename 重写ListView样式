@@ -1,0 +1,124 @@
+<ListView ItemsSource="{Binding CurrentCellList}" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                  Grid.Column="0" Grid.RowSpan="5" Grid.Row="1" SelectedItem="{Binding SelectedCell}"
+                  Background="Transparent" ContextMenu="{StaticResource ContextMenu}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  MouseLeftButtonDown="oneClick" BorderBrush="Transparent"               
+                  Name="mylist"
+                 >
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel ItemHeight="220" ItemWidth="220"
+                               Background="Transparent"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                
+                <!--<ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Aqua" BorderThickness="2" Width="200" Height="200"
+                            Background="#01FFFFFF">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
+                                       Foreground="GreenYellow" FontWeight="Bold" FontSize="18" Panel.ZIndex="200"
+                                       x:Name="CellTypeTextBlock" 
+                                       Text="{Binding ClassInformation.CellType,Converter={StaticResource CellNameConverter}}"/>
+                                <Image Source="{Binding ColorImageEx, Converter={StaticResource EmguConverter}}"
+                                   Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                   Panel.ZIndex="100"/>
+                            </Grid>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Monocyte">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Blue"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Lymphocyte">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DarkMagenta"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="OtherCell">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Yellow"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="BandedNeutrophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Orange"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="SegmentedNeutrophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DeepPink"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Basophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DeepSkyBlue"></Setter>
+                            </DataTrigger>
+
+                            <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Eosinophil">
+                                <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Turquoise"></Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListView.ItemTemplate>-->
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border Name="border" BorderBrush="Aqua" BorderThickness="2" Width="200" Height="200" Background="#01FFFFFF">
+                                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
+                                               Foreground="GreenYellow" FontWeight="Bold" FontSize="18" Panel.ZIndex="200"
+                                               x:Name="CellTypeTextBlock" 
+                                               Text="{Binding ClassInformation.CellType,Converter={StaticResource CellNameConverter}}"/>
+                                            <Image Source="{Binding ColorImageEx, Converter={StaticResource EmguConverter}}"
+                                               Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                               Panel.ZIndex="100"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Width" Value="220"></Setter>
+                                            <Setter TargetName="border" Property="Height" Value="220"></Setter>
+                                            <Setter TargetName="border" Property="BorderBrush" Value="Red"></Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="border" Property="Width" Value="210"></Setter>
+                                            <Setter TargetName="border" Property="Height" Value="210"></Setter>
+                                            <Setter TargetName="border" Property="Padding" Value="5"></Setter>
+                                            <Setter TargetName="border" Property="Background" Value="Gold"></Setter>
+                                            <Setter TargetName="border" Property="BorderThickness" Value="0"></Setter>
+                                        </Trigger>
+
+                                        <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Monocyte">
+                                            <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Blue"></Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Lymphocyte">
+                                            <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DarkMagenta"></Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="OtherCell">
+                                            <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Yellow"></Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="BandedNeutrophil">
+                                            <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Orange"></Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="SegmentedNeutrophil">
+                                            <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DeepPink"></Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Basophil">
+                                            <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="DeepSkyBlue"></Setter>
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding ClassInformation.CellType}" Value="Eosinophil">
+                                            <Setter TargetName="CellTypeTextBlock" Property="Foreground" Value="Turquoise"></Setter>
+                                        </DataTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
