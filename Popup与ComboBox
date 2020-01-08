@@ -1,0 +1,29 @@
+<Popup Name="SelectPath" StaysOpen="False" PlacementTarget="{Binding ElementName=OpenButton}" Placement="Bottom">
+                            <ComboBox Width="150" ItemsSource="{Binding Paths}" SelectedItem="{Binding SelectedPath}">
+                                <ComboBox.ItemContainerStyle>
+                                    <Style TargetType="ComboBoxItem">
+                                        <Setter Property="Height" Value="20"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate  TargetType="{x:Type ComboBoxItem}">
+                                                    <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                                                        <Border x:Name="_borderbg" Background="White"/>
+                                                        <TextBlock Margin="3 0 3 0" VerticalAlignment="Center" x:Name="_txt" Foreground="#333" Text="{Binding }"/>
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="true">
+                                                            <Setter TargetName="_borderbg" Property="Background" Value="#FFFFC205" />
+                                                            <Setter TargetName="_txt" Property="Foreground" Value="White"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter TargetName="_borderbg" Property="Background" Value="#FFE2FF00" />
+                                                            <Setter TargetName="_txt" Property="Foreground" Value="Black"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ComboBox.ItemContainerStyle>
+                            </ComboBox>
+                        </Popup>
