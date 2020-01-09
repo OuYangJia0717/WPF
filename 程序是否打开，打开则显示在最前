@@ -1,0 +1,29 @@
+ /// <summary>
+    /// App.xaml 的交互逻辑
+    /// </summary>
+    public partial class App : Application
+    {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            //是否为互斥体
+            Mutex mutex = new Mutex(true, "CytopicScanner", out bool createNew);
+            if (createNew != true)
+            {
+                IntPtr intptr = FindWindowW(null, "Landing Cytopic Scanner");
+                //没找到则返回零
+                if (intptr!=IntPtr.Zero)
+                {
+                    SetForegroundWindow(intptr);
+                }
+                Shutdown();
+            }
+        }
+
+        //找到这个窗口
+        [DllImport("User32", CharSet = CharSet.Unicode)]
+        static extern IntPtr FindWindowW(string lpClassName,string lpWindowName);
+        //设置这个窗口到前台
+        [DllImport("User32", CharSet = CharSet.Unicode)]
+        static extern Boolean SetForegroundWindow(IntPtr hWnd);
+    }
